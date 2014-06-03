@@ -1,7 +1,14 @@
 <?php
 
+/**
+ * Contains common small utility functions.
+ */
 class Util {
 
+	/**
+	 * Converts time from the form found in LDAP databases
+	 * to a more human-readable form
+	 */
 	function time($ldapTime) {
 		$unixTime = 0;
 		$pat = '/^([0-9]{4,4})([0-9]{2,2})([0-9]{2,2})([0-9]{2,2})([0-9]{2,2})([0-9]{2,2}).*/';
@@ -12,6 +19,9 @@ class Util {
 		return gmdate("Y-m-d\TH:i:s", $unixTime);
 	}
 
+	/**
+	 * Points to the public location of this install
+	 */
 	function base() {
 		return "https://" . $_SERVER['HTTP_HOST'];
 	}
