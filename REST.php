@@ -13,20 +13,21 @@ if (isset($_SERVER['PHP_AUTH_USER'])) {
 			$_GET['api-version'] = readlink($root . "objects/REST/" . $_GET['api-name'] . "/latest");
 		}
 
-		$name = "REST_" . $_GET['api-name'] . "_" . $_GET['api-version'] . "_" . $_GET['resource-name'];
-		$api = new $name($app);
-
-		$parts = preg_split("#/#", $_GET['uri'], -1, PREG_SPLIT_NO_EMPTY);
-		if (sizeof($parts) > 0) {
-			$method = array_shift($parts);
-			$out = call_user_func(array($api, $method), $parts);
-		} else {
-			$out = $api->call();
-		}
-
 		header('Content-type: text/xml');
-		print $out;
-		die();
+		try {
+			$name = "REST_" . $_GET['api-name'] . "_" . $_GET['api-version'] . "_" . $_GET['resource-name'];
+			$api = new $name($app);
+
+			$parts = preg_split("#/#", $_GET['uri'], -1, PREG_SPLIT_NO_EMPTY);
+			if (sizeof($parts) > 0) {
+				$method = array_shift($parts);
+				print call_user_func(array($api, $method), $parts);
+			} else {
+				print $api->call();
+			}
+		} catch (REST_error $e) {
+			print $e->getMessage();
+		}
 	}
 }
 
