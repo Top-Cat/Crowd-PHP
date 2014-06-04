@@ -10,7 +10,7 @@ if (isset($_SERVER['PHP_AUTH_USER'])) {
 		$auth = true;
 
 		if ($_GET['api-version'] == "latest") {
-			$_GET['api-version'] = readlink($root . "objects/REST/" . $_GET['api-name'] . "/latest");
+			$_GET['api-version'] = readlink(SSOAutoload::$root . "objects/REST/" . $_GET['api-name'] . "/latest");
 		}
 
 		header('Content-type: text/xml');
